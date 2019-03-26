@@ -1,5 +1,5 @@
 from room import Room
-
+from player import Player
 # Declare all the rooms
 
 room = {
@@ -38,7 +38,8 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-
+p1 = Player('brooks', 'outside')
+print(p1)
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,3 +50,26 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+val = input("welcome to the game! type your name to start:")
+user = val
+player = Player(user, 'outside')
+while not val == "q":
+    val = val.lower()
+    if val == 'help':
+        val = input(bracket +"type a direction [N] [S] [E] or [W] to move your character through\n the mansion try your best to find the hidden treasure.\n enter any key to continue" + bracket)
+    bracket = '\n*********************************************************************\n'
+    print(bracket)
+    print(player.currentRoom)
+    location = room[player.currentRoom]
+    print(location.description)
+    print(bracket)
+    if val == 'n':
+        print(location.n_to)
+        player.currentRoom = location.n_to
+        print(player.currentRoom)
+    # if val == 's':
+    # if val == 'e':
+    # if val == 'w':
+
+    val = input(bracket + "\nWhat would you like to do? type 'help' if you need instructions:")
+    
