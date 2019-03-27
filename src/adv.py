@@ -39,7 +39,7 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 p1 = Player('brooks', 'outside')
-print(p1)
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -53,6 +53,7 @@ print(p1)
 val = input("welcome to the game! type your name to start:")
 user = val
 player = Player(user, 'outside')
+location = room[player.currentRoom]
 while not val == "q":
     val = val.lower()
     if val == 'help':
@@ -60,16 +61,37 @@ while not val == "q":
     bracket = '\n*********************************************************************\n'
     print(bracket)
     print(player.currentRoom)
-    location = room[player.currentRoom]
     print(location.description)
     print(bracket)
     if val == 'n':
-        print(location.n_to)
-        player.currentRoom = location.n_to
-        print(player.currentRoom)
-    # if val == 's':
-    # if val == 'e':
-    # if val == 'w':
+        try:
+            print(location.n_to.name)
+            print(location.n_to.description)
+            location = location.n_to
+        except:
+            print('cant go north here')
+    if val == 's':
+        try:
+            print(location.s_to.name)
+            print(location.s_to.description)
+            location = location.s_to
+        except:
+            print('cant go south here')
+    if val == 'e':
+        try:
+            print(location.e_to.name)
+            print(location.e_to.description)
+            location = location.e_to
+        except:
+            print('cant go east here')
+    if val == 'w':
+        try:
+            print(location.w_to.name)
+            print(location.w_to.description)
+            location = location.w_to
+        except:
+            print('cant go west here')
+
 
     val = input(bracket + "\nWhat would you like to do? type 'help' if you need instructions:")
     
