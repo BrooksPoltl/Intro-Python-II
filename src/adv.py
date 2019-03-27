@@ -36,8 +36,19 @@ room['treasure'].s_to = room['narrow']
 #
 # Main
 #
-def addItem(room,item, description):
+def addItemRoom(room, item, description):
         room.append({'item': item, 'description': description})
+def removeFromRoom(room, item):
+    for i in room:
+        if i['item'] == item:
+            room.remove(i)
+def addToInventory(player, item):
+        player.append({'item': item})
+def on_take(player, room, item):
+    for i in room:
+        if i['item'] == item:
+            addToInventory(player, item)
+            removeFromRoom(room, item)
 # Make a new player object that is currently in the 'outside' room.
 p1 = Player('brooks', 'outside')
 
@@ -56,7 +67,7 @@ user = val
 player = Player(user, 'outside')
 location = room[player.currentRoom]
 locationItems = location.items
-addItem(locationItems,'staff', 'staffz of warlords')
+addItemRoom(locationItems,'staff', 'staffz of warlords')
 def logItems():
     print('\nroom items:\n')
     for i in location.items:
@@ -67,7 +78,7 @@ def logItems():
 bracket = '\n*********************************************************************\n'
 print('\n'+ user +'\n')
 print(bracket)
-print(player.currentRoom)
+print(location.name)
 print(location.description)
 logItems()
 print(bracket)
@@ -115,4 +126,7 @@ while not val == "q":
             print('cant go west here')
     val = input(bracket + "\nWhat would you like to do? type 'help' if you need instructions:")
     inputs = val.split()
-    
+    if inputs[0] == 'get':
+        on_take(player.inventory, locationItems, inputs[1])
+    elif inputs[0] == 'take':
+        on_take(player.inventory, locationItems, inputs[1])

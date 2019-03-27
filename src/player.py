@@ -6,7 +6,5 @@ class Player:
         self.username = username
         self.currentRoom = currentRoom
         self.inventory = inventory
-    def addItem(self, item, description):
-        self.inventory.append({'item': item, 'description': description})
     def __str__(self):
         return str(self.__dict__)
