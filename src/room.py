@@ -6,5 +6,7 @@ class Room:
         self.name = name
         self.description = description
         self.items = items
+    def addItem(self, item):
+        self.items.append(item)
     def __str__(self):
         return str(self.__dict__)
