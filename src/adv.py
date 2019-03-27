@@ -36,12 +36,11 @@ room['treasure'].s_to = room['narrow']
 #
 # Main
 #
-
+def addItem(room,item, description):
+        room.append({'item': item, 'description': description})
 # Make a new player object that is currently in the 'outside' room.
 p1 = Player('brooks', 'outside')
-print(room['outside'])
-room['outside'].addItem('staff', 'staff of warlords')
-print(room['outside'].items)
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -56,38 +55,45 @@ val = input("welcome to the game! type your name to start:")
 user = val
 player = Player(user, 'outside')
 location = room[player.currentRoom]
+locationItems = location.items
+addItem(locationItems,'staff', 'staffz of warlords')
 def logItems():
     print('\nroom items:\n')
     for i in location.items:
         try:
             print(i['item'])
         except: 
-            pass
+            pass      
+bracket = '\n*********************************************************************\n'
+print('\n'+ user +'\n')
+print(bracket)
+print(player.currentRoom)
+print(location.description)
+logItems()
+print(bracket)
 while not val == "q":
     val = val.lower()
+    if val == '':
+        print(location.name)
+        print(location.description)
     if val == 'help':
         val = input(bracket +"type a direction [N] [S] [E] or [W] to move your character through\n the mansion try your best to find the hidden treasure.\n enter any key to continue" + bracket)
-    bracket = '\n*********************************************************************\n'
-    print(bracket)
-    print(player.currentRoom)
-    print(location.description)
-    
-    logItems()
-    print(bracket)
+    print('\n'+ user +'\n')
     if val == 'n':
         try:
             print(location.n_to.name)
             print(location.n_to.description)
-            logItems()
             location = location.n_to
+            logItems()
+            
         except:
             print('cant go north here')
     if val == 's':
         try:
             print(location.s_to.name)
             print(location.s_to.description)
-            logItems()
             location = location.s_to
+            logItems()
         except:
             print('cant go south here')
     if val == 'e':
@@ -102,11 +108,11 @@ while not val == "q":
         try:
             print(location.w_to.name)
             print(location.w_to.description)
-            logItems()
             location = location.w_to
+            logItems()
+            
         except:
             print('cant go west here')
-
-
     val = input(bracket + "\nWhat would you like to do? type 'help' if you need instructions:")
+    inputs = val.split()
     
