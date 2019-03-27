@@ -39,7 +39,9 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 p1 = Player('brooks', 'outside')
-
+print(room['outside'])
+room['outside'].addItem('staff', 'staff of warlords')
+print(room['outside'].items)
 # Write a loop that:
 #
 # * Prints the current room name
@@ -54,6 +56,13 @@ val = input("welcome to the game! type your name to start:")
 user = val
 player = Player(user, 'outside')
 location = room[player.currentRoom]
+def logItems():
+    print('\nroom items:\n')
+    for i in location.items:
+        try:
+            print(i['item'])
+        except: 
+            pass
 while not val == "q":
     val = val.lower()
     if val == 'help':
@@ -62,11 +71,14 @@ while not val == "q":
     print(bracket)
     print(player.currentRoom)
     print(location.description)
+    
+    logItems()
     print(bracket)
     if val == 'n':
         try:
             print(location.n_to.name)
             print(location.n_to.description)
+            logItems()
             location = location.n_to
         except:
             print('cant go north here')
@@ -74,6 +86,7 @@ while not val == "q":
         try:
             print(location.s_to.name)
             print(location.s_to.description)
+            logItems()
             location = location.s_to
         except:
             print('cant go south here')
@@ -81,6 +94,7 @@ while not val == "q":
         try:
             print(location.e_to.name)
             print(location.e_to.description)
+            logItems()
             location = location.e_to
         except:
             print('cant go east here')
@@ -88,6 +102,7 @@ while not val == "q":
         try:
             print(location.w_to.name)
             print(location.w_to.description)
+            logItems()
             location = location.w_to
         except:
             print('cant go west here')
