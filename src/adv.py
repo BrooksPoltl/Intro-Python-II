@@ -36,19 +36,35 @@ room['treasure'].s_to = room['narrow']
 #
 # Main
 #
-def addItemRoom(room, item, description):
-        room.append({'item': item, 'description': description})
+def addItemRoom(room, item):
+        room.append({'item': item})
 def removeFromRoom(room, item):
     for i in room:
         if i['item'] == item:
             room.remove(i)
 def addToInventory(player, item):
         player.append({'item': item})
+def removeFromInventory(player, item):
+    for i in player:
+        if i['item'] == item:
+            player.remove(i)
+            print(player)
+def on_drop(player, room, item):
+    for i in player:
+        if i['item'] == item:
+            addItemRoom(room, item)
+            removeFromInventory(player, item)
+            print('*********************\n\ndropped '+ item + '\n\n*********************')
+            return item
+    print('*********************\n\ncant find '+ item + ' in inventory\n\n*********************')
 def on_take(player, room, item):
     for i in room:
         if i['item'] == item:
             addToInventory(player, item)
             removeFromRoom(room, item)
+            print('*********************\n\npicked up '+ item + '\n\n*********************')
+            return item
+    print('*********************\n\ncant find '+ item + ' in room\n\n*********************')
 # Make a new player object that is currently in the 'outside' room.
 p1 = Player('brooks', 'outside')
 
@@ -67,7 +83,7 @@ user = val
 player = Player(user, 'outside')
 location = room[player.currentRoom]
 locationItems = location.items
-addItemRoom(locationItems,'staff', 'staffz of warlords')
+addItemRoom(locationItems,'staff')
 def logItems():
     print('\nroom items:\n')
     for i in location.items:
@@ -90,6 +106,12 @@ while not val == "q":
     if val == 'help':
         val = input(bracket +"type a direction [N] [S] [E] or [W] to move your character through\n the mansion try your best to find the hidden treasure.\n enter any key to continue" + bracket)
     print('\n'+ user +'\n')
+    if val == 'i':
+        for i in player.inventory:
+            print(i['item'])
+    if val == 'inventory':
+        for i in player.inventory:
+            print(i['item'])
     if val == 'n':
         try:
             print(location.n_to.name)
@@ -125,8 +147,14 @@ while not val == "q":
         except:
             print('cant go west here')
     val = input(bracket + "\nWhat would you like to do? type 'help' if you need instructions:")
-    inputs = val.split()
-    if inputs[0] == 'get':
-        on_take(player.inventory, locationItems, inputs[1])
-    elif inputs[0] == 'take':
-        on_take(player.inventory, locationItems, inputs[1])
+    if val != '':
+        inputs = val.split()
+        if inputs[0]== '':
+            print(location.name)
+            print(location.description)
+        if inputs[0] == 'get':
+            on_take(player.inventory, locationItems, inputs[1])
+        elif inputs[0] == 'take':
+            on_take(player.inventory, locationItems, inputs[1])
+        elif inputs[0]== 'drop':
+            on_drop(player.inventory, locationItems, inputs[1])
